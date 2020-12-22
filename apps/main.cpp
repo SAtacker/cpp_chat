@@ -1,8 +1,8 @@
-#include "libname/hello_world.h"
+#include "libmain/hello_world.hpp"
 
 #include <iostream>
 
 int main() {
-    std::cout << libname::helloWorld() << "\n";
+    std::cout << libmain::helloWorld() << "\n";
     return 0;
 }
