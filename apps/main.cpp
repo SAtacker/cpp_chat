@@ -1,8 +1,8 @@
-#include "libmain/hello_world.hpp"
+#include "libmain/client.hpp"
 
 #include <iostream>
 
 int main() {
-    std::cout << libmain::helloWorld() << "\n";
+    std::cout  << "\n";
     return 0;
 }
