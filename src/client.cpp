@@ -19,6 +19,7 @@ client::client(){
 void client::get_inp_message(){
     cout<<client_name<<" : ";
     cin>>input_message;
+    input_message = client_name + " : " + input_message;
 }
 
 void client::receive_message(){
