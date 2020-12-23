@@ -32,3 +32,7 @@ void client::send_message(){
     // Write message to the socket
     boost::asio::write(socket,boost::asio::buffer(input_message));
 }
+
+void client::display_received(){
+    cout<<incomming_message;
+}

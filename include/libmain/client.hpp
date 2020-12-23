@@ -19,5 +19,6 @@ namespace libmain {
             void get_inp_message();
             void send_message();
             void receive_message();
+            void display_received();
     };
 }
