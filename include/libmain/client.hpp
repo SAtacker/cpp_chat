@@ -9,9 +9,9 @@ namespace libmain {
             std::string incomming_message;
             std::string client_name;
             std::string address;
-            int port;
+            unsigned short port;
             boost::asio::io_service io_service;
-            boost::asio::ip::tcp client_socket;
+            boost::asio::ip::tcp::socket client_socket;
 
         public:
             client();

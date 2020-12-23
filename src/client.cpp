@@ -8,17 +8,24 @@ client::client(){
     cout<<"============= Welcome to cpp_chat! =====================\n";
     cout<<"Enter ip: ";
     cin>>address;
-    cout<<"\nEnter a port number: ";
+    cout<<"\nEnter endpoint port number: ";
     cin>>port;
+    cout<<"Enter Name: ";
+    cin>>client_name;
+    client_socket.connect(boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(address),port));
+    // TODO: Handle errors o connecting sockets
 }
 
 void client::get_inp_message(){
-    // Get message from input buffer
-    boost::asio::streambuf buf;
-    cout<<"Enter Message: ";
-    boost::asio::read_until(socket,buf,"\n");
-    input_message = boost::asio::buffer_cast< const char*>(buf.data());
+    cout<<client_name<<" : ";
+    cin>>input_message;
+}
 
+void client::receive_message(){
+    // Get message from server
+    boost::asio::streambuf buf;
+    boost::asio::read_until(socket,buf,"\n");
+    incomming_message = boost::asio::buffer_cast< const char*>(buf.data());
 }
 
 void client::send_message(){
