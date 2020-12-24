@@ -3,7 +3,7 @@
 #include <boost/asio.hpp>
 
 namespace libmain {
-    class client{
+    class chat{
         private:
             std::string input_message;
             std::string incomming_message;
@@ -14,8 +14,8 @@ namespace libmain {
             boost::asio::ip::tcp::socket client_socket;
 
         public:
-            client();
-            ~client();
+            chat();
+            ~chat();
             void get_inp_message();
             void send_message();
             void receive_message();
