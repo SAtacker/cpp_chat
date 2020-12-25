@@ -1,23 +1,27 @@
 #include "libmain/chat.hpp"
-#include <boost/thread.hpp>
 
 using namespace std;
 using namespace libmain;
+// using namespace boost;
 
-void handle_client(chat cl){
+void handle_client(){
+    chat cl;
     cl.get_inp_message();
     cl.send_message();
 }
 
-void display_client(chat cl){
+void display_client(){
+    chat cl{"127.0.0.1",50000,"Shreyas"};
     cl.receive_message();
     cl.display_received();
 }
 
 int main() {
-    chat cl;
-    boost::thread cl_thread{handle_client},s_thread{display_client};
-    cl_thread.join();
-    s_thread.join();
+    // boost::thread  c{handle_client},t{display_client};
+    // if(c.joinable())
+    // c.join();
+    // if(t.joinable())
+    // t.join();
+    handle_client();
     return 0;
 }
