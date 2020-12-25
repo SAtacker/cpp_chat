@@ -17,9 +17,14 @@ target_include_directories(${LIBRARY_NAME}
     PRIVATE
         ${LIBRARY_MODULE_PATH}
 )
-
+set(BOOST_ROOT /opt/boost)
+set(Boost_USE_STATIC_LIBS ON)
 target_compile_features(${LIBRARY_NAME} PRIVATE cxx_std_17)
-
+find_package(Boost REQUIRED COMPONENTS thread)
+target_link_libraries(${LIBRARY_NAME} Boost::thread)
+# target_link_libraries(${LIBRARY_NAME} Boost::asio)
+# target_link_libraries(${LIBRARY_NAME} Boost::shared_ptr)
+target_link_libraries(${LIBRARY_NAME}  ${Boost_SYSTEM_LIBRARY})
 #target_link_libraries(${LIBRARY_NAME}
 #    PUBLIC
 #        CONAN_PKG::PublicLibs # List all libraries needed externally (i.e. part of the lib interface)
