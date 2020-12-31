@@ -55,6 +55,10 @@ void server::display_received(){
     cout<<endl;
 }
 
+void send_response(){
+    //TODO: send response
+}
+
 void server::init_server(){
 
     // receive_message();

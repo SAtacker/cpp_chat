@@ -20,6 +20,7 @@ namespace libmain {
             server();
             server(std::string add,unsigned short p);
             void init_server();
+            void send_response();
             void receive_message();
             void display_received();
     };

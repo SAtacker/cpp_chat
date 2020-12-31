@@ -18,10 +18,10 @@ void serrver_echo(){
 }
 
 int main() {
-    boost::thread c{handle_client},t{serrver_echo};
-    if(c.joinable())
-    c.join();
-    if(t.joinable())
-    t.join();
+    boost::thread t{serrver_echo},c{handle_client};
+    if(t.joinable()){
+        t.join();
+        c.interrupt();
+    }
     return 0;
 }
