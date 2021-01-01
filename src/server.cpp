@@ -58,8 +58,8 @@ void server::handle_login(){
     receive_message();
     if(incomming_message[0]==_LOGIN_REQ_){
         cout<<"Received login request from "<<incomming_message.substr(1)<<endl;
-        if(&incomming_message.at(incomming_message.length()-1)=="\n")incomming_message.pop_back();
-        if(user_names_hash.find(incomming_message.substr(1))!=user_names_hash.end() || user_names_hash.size()==0){
+        if(incomming_message.at(incomming_message.length()-1)=='\n')incomming_message.pop_back();
+        if(user_names_hash.find(incomming_message.substr(1))==user_names_hash.end() || user_names_hash.size()==0){
             hashed_id = hash<string> {} (incomming_message.substr(1));
             user_names_hash[incomming_message.substr(1)] = hashed_id;
             hash_user_names[to_string(hashed_id)] = incomming_message.substr(1);
@@ -72,7 +72,7 @@ void server::handle_login(){
             send_response();
         }
     }
-    else if(user_names_hash.find(hash_user_names[incomming_message.substr(0,sizeof(size_t))])==user_names_hash.end()){
+    else if(user_names_hash.find(hash_user_names[incomming_message.substr(0,incomming_message.find_first_of("\n"))])!=user_names_hash.end()){
         display_received();
     }
     else{

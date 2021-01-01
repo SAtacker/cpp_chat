@@ -4,11 +4,6 @@
 using namespace std;
 using namespace libmain;
 
-// void serrver_echo(){
-//     server s{"127.0.0.1",5100};
-//     s.init_server();
-// }
-
 int main(int argc,char* argv[]) {
     cout<<"=================================== Welcome ========================================"<<endl;
     if(argc == 4){
