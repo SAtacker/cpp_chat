@@ -11,8 +11,6 @@ client::client():_service(service),socket(service){
     cin>>port;
     cout<<"Enter Name: ";
     cin>>client_name;
-    // socket_ptr(std::ref(*service));
-    // https://stackoverflow.com/questions/50091228/c-error-use-of-deleted-function-boostasioio-contextio-context
     boost::system::error_code ec;
     socket.connect(boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(address),port),ec);
     if (ec)
@@ -27,10 +25,6 @@ client::client(std::string add,unsigned short p,std::string name):_service(servi
     address = add;
     port = p;
     client_name = name;
-    // socket_ptr(*service);
-    // https://stackoverflow.com/questions/50091228/c-error-use-of-deleted-function-boostasioio-contextio-context
-    // TODO: Handle errors o connecting sockets
-    // socket.connect(boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(address),port));
     boost::system::error_code ec;
     socket.connect(boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(address),port),ec);
     if (ec)

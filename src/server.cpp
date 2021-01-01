@@ -13,29 +13,13 @@ server::server():_service(service),socket(service),acceptor_server(service,boost
     cout<<"Enter ip: ";
     cin>>address;
     cout<<"\nEnter endpoint port number: ";
-    cin>>port;
-    // TODO: Handle errors o connecting sockets
-    // Listening for any new incomming connection 
-    // at port 9999 with IPv4 protocol 
-    // acceptor_server( 
-    //     service, 
-    //     boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)); 
-  
-    // Creating socket object 
-  
-    // waiting for connection 
+    cin>>port; 
 }
 
 
 server::server(std::string add,unsigned short p):_service(service),socket(service),acceptor_server(service,boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), p)){
     address = add;
     port = p;
-    // socket_ptr(*service);
-    // https://stackoverflow.com/questions/50091228/c-error-use-of-deleted-function-boostasioio-contextio-context
-    // TODO: Handle errors o connecting sockets
-    // socket.connect(boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(address),port));
-    // Listening for any new incomming connection 
-    // at port 9999 with IPv4 protocol 
 
 }
 
