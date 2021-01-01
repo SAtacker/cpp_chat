@@ -4,24 +4,32 @@
 using namespace std;
 using namespace libmain;
 
-void handle_client(){
-    client cl{"127.0.0.1",5100,"Human"};
-    while(true){
-        cl.get_inp_message();
-        cl.send_message();
-    }
-}
+// void serrver_echo(){
+//     server s{"127.0.0.1",5100};
+//     s.init_server();
+// }
 
-void serrver_echo(){
-    server s{"127.0.0.1",5100};
-    s.init_server();
-}
-
-int main() {
-    boost::thread t{serrver_echo},c{handle_client};
-    if(t.joinable()){
-        t.join();
-        c.interrupt();
+int main(int argc,char* argv[]) {
+    cout<<"=================================== Welcome ========================================"<<endl;
+    if(argc == 4){
+        client c{argv[1],stoi(argv[2]),argv[3]};
+        while (true)
+        {
+            c.get_inp_message();
+            c.send_message();
+            if(c.is_quit()){
+                break;
+            }
+        }
+    }else if (argc==3)
+    {
+        server s{argv[1],(stoi(argv[2]))};
+        s.init_server();
     }
+    else{
+        cout<<"===============Entered sufficient arguments================="<<endl;
+        cout<<"ip port username"<<endl;
+    }
+    cout<<"=================================== Thank You ========================================"<<endl;
     return 0;
 }

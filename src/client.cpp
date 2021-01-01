@@ -1,8 +1,8 @@
 #include "libmain/client.hpp"
-#include <iostream>
 
 using namespace std;
 using namespace libmain;
+
 client::client():_service(service),socket(service){
     cout<<"============= Welcome to cpp_chat! =====================\n";
     cout<<"Enter ip: ";
@@ -20,6 +20,7 @@ client::client():_service(service),socket(service){
         cout<<"Error occured\n";
     }
     // TODO: Handle errors o connecting sockets
+    login_client();
 }
 
 client::client(std::string add,unsigned short p,std::string name):_service(service),socket(service){
@@ -36,12 +37,39 @@ client::client(std::string add,unsigned short p,std::string name):_service(servi
     {
         cout<<"Error occured\n";
     }
+    login_client();
+}
+
+void client::login_client(){
+    input_message = _LOGIN_REQ_ + client_name+ "\n";
+    boost::asio::write(socket,boost::asio::buffer(input_message));
+    receive_message();
+    if(incomming_message[0]==_LOGIN_SUCCESS_){
+        cout<<"Login Success"<<endl;
+        unique_id_received.clear();
+        unique_id_received.resize(incomming_message.length()-1);
+        if(&incomming_message.at(incomming_message.length()-1)=="\n")incomming_message.pop_back();
+        for(int i{0};i<incomming_message.length()-1;i++){
+            unique_id_received[i] = incomming_message[i+1]; 
+        }
+        incomming_message.clear();
+        quit = false;
+    }
+    else if(incomming_message[0]==_LOGIN_FAIL_){
+        cout<<"Login failed. Try new username"<<endl;
+        quit = false;
+    }
+    else{
+        cout<<"Login Error"<<endl;
+        quit = true;
+    }
+
 }
 
 void client::get_inp_message(){
-    cout<<client_name<<" : ";
-    cin>>input_message;
     cout<<endl;
+    cout<<client_name<<" : ";
+    getline(cin,input_message);
 }
 
 void client::receive_message(){
@@ -53,9 +81,20 @@ void client::receive_message(){
 
 void client::send_message(){
     // Write message to the socket
-    boost::asio::write(socket,boost::asio::buffer(input_message+"\n"));
+    string temp = input_message;
+    input_message = unique_id_received + input_message + "\n";
+    boost::asio::write(socket,boost::asio::buffer(input_message));
+    if(temp=="exit"){
+        cout<<"Exiting"<<endl;
+        socket.close();
+        quit=true;
+    }
 }
 
 void client::display_received(){
     cout<<incomming_message;
+}
+
+bool client::is_quit(){
+    return quit;
 }
