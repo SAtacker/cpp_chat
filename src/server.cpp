@@ -42,7 +42,6 @@ void server::display_received(){
     opt.pop_back();
     opt+= " ] : ";
     opt+= hash_user_names.find(incomming_message.substr(0,incomming_message.find_first_of("\n")))->second;
-    opt.pop_back();
     opt+= " : ";
     cout<<opt;
     cout<<&incomming_message.at(incomming_message.find_first_of("\n")+1);
