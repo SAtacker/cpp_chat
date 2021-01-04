@@ -1,6 +1,7 @@
 #pragma once
 
 #include <boost/asio.hpp>
+#include <boost/thread.hpp>
 #include <unordered_map>
 #include <time.h>
 
@@ -23,7 +24,7 @@ namespace libmain {
             unsigned short port;
             size_t hashed_id;
             boost::asio::io_service& _service,service;
-            boost::asio::ip::tcp::socket socket;
+            boost::asio::ip::tcp::socket socket,secondary_socket;
             boost::asio::ip::tcp::acceptor acceptor_server;
         public:
             server();
