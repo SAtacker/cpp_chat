@@ -48,7 +48,6 @@ void libserver::server::_set_map_change()
 
 bool libserver::server::_is_timed_out() const
 {   
-    std::cout<<"DIff "<<(boost::posix_time::microsec_clock::local_time() - _ping).total_milliseconds()<<std::endl;
     return ((boost::posix_time::microsec_clock::local_time() - _ping).total_milliseconds()) > _MAX_PING_DELAY_MSEC_;
 }
 

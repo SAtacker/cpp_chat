@@ -110,7 +110,7 @@ void libclient::client_thread(const std::string & client_name)
 
 void libclient::main_client_thread() {
     boost::thread_group threads;
-    char* names[] = { "John", "James", "Lucy", "Tracy", "Frank", "Abby", 0 };
+    char* names[] = { "Amul", "Macho", "SodaWater", "DesiBoy", "Jethalal", "Gyanchand",0 };
     for ( char ** name = names; *name; ++name) 
     {
         threads.create_thread( boost::bind(client_thread, *name));
