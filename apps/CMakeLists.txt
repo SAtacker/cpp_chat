@@ -1,13 +1,15 @@
-set(APP_NAME "${PROJECT_NAME}-app")
-
+set(C_APP_NAME "${PROJECT_NAME}-app-client")
+set(S_APP_NAME "${PROJECT_NAME}-app-server")
 set(APP_MODULE_DIRECTORY "${PROJECT_SOURCE_DIR}/apps")
 set(APP_SOURCE_DIRECTORY "${APP_MODULE_DIRECTORY}")
 
-set(APP_SOURCES "${APP_SOURCE_DIRECTORY}/main.cpp")
-FIND_PACKAGE(Boost 1.47 REQUIRED)
+set(C_APP_SOURCES "${APP_SOURCE_DIRECTORY}/client_app.cpp")
+set(S_APP_SOURCES "${APP_SOURCE_DIRECTORY}/server_app.cpp")
+FIND_PACKAGE(Boost 1.70 REQUIRED)
 IF (BOOST_FOUND)
 INCLUDE_DIRECTORIES(${BOOST_INCLUDE_DIR})
 ENDIF()
-add_executable(${APP_NAME} ${APP_SOURCES})
-
-target_link_libraries(${APP_NAME} ${LIBRARY_NAME})
+add_executable(${C_APP_NAME} ${C_APP_SOURCES})
+add_executable(${S_APP_NAME} ${S_APP_SOURCES})
+target_link_libraries(${C_APP_NAME} ${LIBRARY_NAME})
+target_link_libraries(${S_APP_NAME} ${LIBRARY_NAME})
