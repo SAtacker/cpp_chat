@@ -91,7 +91,7 @@ void libclient::client::_respond_ping(const std::string& _send_message)
 
 void libclient::client::_on_clients_change(const std::string& _send_message)
 {
-    std::cout<<"New client list is \n"<<_send_message.substr(sizeof(_RESP_CLIENT_LIST_))<<std::endl;
+    std::cout<<"New client list is \n"<<_send_message<<std::endl;
 }
 
 void libclient::client_thread(const std::string & client_name) 

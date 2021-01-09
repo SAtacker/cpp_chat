@@ -47,7 +47,8 @@ void libserver::server::_set_map_change()
 }
 
 bool libserver::server::_is_timed_out() const
-{
+{   
+    std::cout<<"DIff "<<(boost::posix_time::microsec_clock::local_time() - _ping).total_milliseconds()<<std::endl;
     return ((boost::posix_time::microsec_clock::local_time() - _ping).total_milliseconds()) > _MAX_PING_DELAY_MSEC_;
 }
 
@@ -76,8 +77,6 @@ void libserver::server::_process_request_()
     */
     if(std::find(_incomming_message,_incomming_message+_num_bytes_read,'\n'))
     {
-        // Update ping
-        _ping = boost::posix_time::microsec_clock::local_time();
 
         // Store the message in a std::string container
         std::string msg(_incomming_message,(std::find(_incomming_message,_incomming_message+_num_bytes_read,'\n')-_incomming_message));
@@ -88,7 +87,7 @@ void libserver::server::_process_request_()
         _num_bytes_read -= (std::find(_incomming_message,_incomming_message+_num_bytes_read,'\n')-_incomming_message);
         if(msg.find(_LOGIN_REQUEST_)==0)
         {   
-            client_name = msg.substr((_LOGIN_REQUEST_).length()-1);
+            client_name = msg.substr((_LOGIN_REQUEST_).length());
             _handle_login_req();
             libserver::_update_client_changed();
         }
@@ -103,7 +102,7 @@ void libserver::server::_process_request_()
         else if(msg.find(_REQ_ECHO_)==0)
         {
             std::string m;
-            m = msg.substr((_REQ_ECHO_).length()-1);
+            m = msg.substr((_REQ_ECHO_).length());
             _display_message(m);
         }
     }
@@ -120,7 +119,17 @@ void libserver::server::_handle_login_req()
 void libserver::server::_handle_ping_req()
 {
     // Respond to ping request
-    _write_to_socket(_map_change? "ping list changed\n":(_PING_RESPONSE_+"\n"));
+    std::cout<<"Received ping from "<<client_name<<std::endl;
+    std::cout<<"Last ping: "<<boost::posix_time::to_simple_string(_ping)<<std::endl;
+    if(_map_change)
+    {
+        _handle_list_request();
+    }
+    else
+    {
+        _write_to_socket(_PING_RESPONSE_+"\n");
+    }
+    _ping = boost::posix_time::microsec_clock::local_time();
     _map_change = false;
 }
 
@@ -137,8 +146,6 @@ void libserver::server::_handle_list_request()
         unames+="\n";
     }
     unames = _RESP_CLIENT_LIST_ + unames;
-    if(unames.length()>_MAX_BUF_SIZE_)
-    unames.resize(_MAX_BUF_SIZE_);
     _write_to_socket(unames);
 
 }
