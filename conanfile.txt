@@ -1,5 +1,5 @@
 [requires]
-catch2/2.2.2@bincrafters/stable
+Boost/1.75.0
 
 [generators]
 cmake

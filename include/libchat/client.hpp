@@ -6,6 +6,7 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/bind/bind.hpp>
 #include <iostream>
+#include <future>
 
 #define _MAX_BUF_SIZE_ 1024
 #define _LOGIN_SUCCESS_ (std::string)"ok"
@@ -45,4 +46,7 @@ namespace libclient{
     void client_thread(const std::string & client_name) ;
 
     void main_client_thread();
+
+    static std::string getAnswer();
+
 }

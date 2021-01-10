@@ -48,7 +48,22 @@ void libserver::server::_set_map_change()
 
 bool libserver::server::_is_timed_out() const
 {   
-    return ((boost::posix_time::microsec_clock::local_time() - _ping).total_milliseconds()) > _MAX_PING_DELAY_MSEC_;
+    bool rem =  ((boost::posix_time::microsec_clock::local_time() - _ping).total_milliseconds()) > _MAX_PING_DELAY_MSEC_;
+    if(rem)
+    {
+        std::cout<<"Removing "<<client_name<<std::endl;
+        std::string unames;
+        {
+            boost::recursive_mutex::scoped_lock lk(cs);
+            for(auto it:server_shared_ptrs)
+            {
+                unames+=(it)->_get_username();
+            }
+            unames+="\n";
+        }
+        std::cout<<"All Clients are "<<unames;
+    }
+    return rem;
 }
 
 void libserver::server::_exit()

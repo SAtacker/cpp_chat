@@ -110,11 +110,26 @@ void libclient::client_thread(const std::string & client_name)
 
 void libclient::main_client_thread() {
     boost::thread_group threads;
-    char* names[] = { "Amul", "Macho", "SodaWater", "DesiBoy", "Jethalal", "Gyanchand",0 };
-    for ( char ** name = names; *name; ++name) 
+    std::chrono::seconds timeout(3);
+    for ( ;;) 
     {
-        threads.create_thread( boost::bind(client_thread, *name));
+        std::string name="default";
+        std::future<std::string> future = std::async(getAnswer);
+        if (future.wait_for(timeout) == std::future_status::ready)
+            name = future.get();
+        if(name!="default")
+        {
+            std::cout<<"Starting client thread "<<name<<std::endl;
+            threads.create_thread( boost::bind(client_thread, name));
+        }
         boost::this_thread::sleep( boost::posix_time::millisec(100));
     }
     threads.join_all();
+}
+
+static std::string libclient::getAnswer()
+{    
+    std::string answer;
+    std::cin >> answer;
+    return answer;
 }
